@@ -1,0 +1,6 @@
+secrets
+encrypted-secrets
+app.zip
+node_modules
+coverage
+dist

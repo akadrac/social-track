@@ -1,0 +1,26 @@
+{
+  "name": "social-track",
+  "version": "1.0.0",
+  "description": "lambda function to monitor twitter accounts and post results to discord",
+  "main": "social-track.js",
+  "scripts": {
+    "coverage": "jest --coverage",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "akadrac",
+  "license": "MIT",
+  "devDependencies": {
+    "jest-cli": "^20.0.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.49.0",
+    "co": "^4.6.0",
+    "oauth": "^0.9.15",
+    "request": "^2.81.0",
+    "twitter": "^1.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

@@ -1,0 +1,6 @@
+// rename to keys.json, populate with your values and remove this comment
+{
+  "CONSUMER_KEY": "twitter API Key",
+  "CONSUMER_SECRET": "twitter API Secret",
+  "WEBHOOK": "discord webhook url"
+}
