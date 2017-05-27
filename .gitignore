@@ -1,3 +1,6 @@
+.terraform
+*.tfstate.*
+
 node_modules
 coverage
 
@@ -5,5 +8,3 @@ keys.json
 encrypted-secrets
 
 dist
-
-*.tfstate

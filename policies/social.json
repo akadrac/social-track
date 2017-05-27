@@ -2,40 +2,12 @@
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
       "Effect": "Allow",
-      "Action": [
-        "lambda:InvokeFunction"
-      ],
-      "Resource": "arn:aws:lambda:*:*:*" //arn:aws:lambda:region:account-id:function:function-name
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:*"
-      ],
-      "Resource": "arn:aws:logs:*:*:*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:GetObject"
-      ],
-      "Resource": "arn:aws:s3:::*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "dynamodb:Scan",
-        "dynamodb:PutItem"
-      ],
-      "Resource": "arn:aws:dynamodb:*:*:*" //arn:aws:dynamodb:region:account-id:table/table-name
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "kms:Decrypt"
-      ],
-      "Resource": "arn:aws:kms:*:*:*" //arn:aws:kms:AWS_region:AWS_account_ID:key/CMK_key_ID
+      "Sid": ""
     }
   ]
 }

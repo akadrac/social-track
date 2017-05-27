@@ -1,5 +1,5 @@
 variable "region" {
-  default = "us-west-2"
+  default = "ap-southeast-2"
 }
 
 // this will fetch our account_id, no need to hard code it
