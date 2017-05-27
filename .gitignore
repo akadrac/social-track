@@ -5,3 +5,5 @@ keys.json
 encrypted-secrets
 
 dist
+
+*.tfstate

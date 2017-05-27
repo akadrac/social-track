@@ -1,6 +1,11 @@
+provider "aws" {
+    profile = "default"
+    region = "${var.region}"
+}
+
 resource "aws_iam_role" "social_track" {
   name = "social_track"
-  assume_role_policy = "${file("policies/lambda-role.json")}"
+  assume_role_policy = "${file("policies/social.json")}"
 }
 
 resource "aws_lambda_function" "social_track" {
