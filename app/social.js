@@ -1,7 +1,7 @@
 'use strict';
 
 const co = require('co');
-const kms = require('./kms');
+const secrets = require('./secrets');
 const db = require('./db');
 const tw = require('./tw');
 const discord = require('./discord');
@@ -9,9 +9,9 @@ const discord = require('./discord');
 const main = (event, callback) => {
   co(function* () {
     try {
-      let SECRETS = yield kms.getSecrets();
+      let SECRETS = yield secrets.getSecrets();
 
-      let token = yield tw.getOAuthToken(SECRETS);
+      let token = yield tw.getOAuthToken(SECRETS.twitter);
       let accounts = yield db.getAccounts();
 
       for (let account of accounts) {
@@ -19,7 +19,7 @@ const main = (event, callback) => {
         let since_id = account.since_id.S;
         let exclude_replies = account.exclude_replies.BOOL;
 
-        let tweets = yield tw.getTweets(token, screen_name, since_id, exclude_replies, SECRETS);
+        let tweets = yield tw.getTweets(token, screen_name, since_id, exclude_replies, SECRETS.twitter);
         console.log('number of tweets:', tweets.length);
 
         // we want to process from oldest tweet to newest
@@ -27,7 +27,7 @@ const main = (event, callback) => {
           if (tweet.id_str > since_id) {
             since_id = tweet.id_str
           }
-          yield discord.post(tweet, SECRETS.WEBHOOK);
+          yield discord.post(tweet, SECRETS.discord);
         }
         if (tweets.length) {
           yield db.putAccount(screen_name, since_id, exclude_replies);

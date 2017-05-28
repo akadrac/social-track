@@ -2,7 +2,7 @@
 
 const request = require('request');
 
-const post = (tweet, webhook) => {
+const post = (tweet, SECRETS) => {
   console.log('postToDiscord')
 
   let message = {
@@ -14,7 +14,7 @@ const post = (tweet, webhook) => {
   return new Promise((resolve, reject) => {
 
     let options = {
-      url: webhook,
+      url: SECRETS.webhook,
       method: 'POST',
       json: message
     };

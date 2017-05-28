@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "social_track" {
     ]
 
     resources = [
-      "*",
+      "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/social_track",
     ]
   } 
 
@@ -44,7 +44,17 @@ data "aws_iam_policy_document" "social_track" {
     ]
 
     resources = [
-      "*",
+      "arn:aws:kms:${var.region}:${data.aws_caller_identity.current.account_id}:key/*",
+    ]
+  }
+
+  statement {
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.social_track.bucket}/*",
     ]
   } 
 }
@@ -58,6 +68,11 @@ resource "aws_iam_policy" "social_track" {
 resource "aws_iam_role_policy_attachment" "social_track" {
   role       = "${aws_iam_role.social_track.name}"
   policy_arn = "${aws_iam_policy.social_track.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "basic_lambda" {
+  role       = "${aws_iam_role.social_track.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_lambda_alias" "social_track" {
@@ -78,6 +93,15 @@ resource "aws_lambda_function" "social_track" {
   runtime = "nodejs6.10"
   publish = true
   timeout = 15
+
+  kms_key_arn = "${aws_kms_key.social_track.arn}"
+
+  environment {
+    variables = {
+      bucket = "${aws_s3_bucket.social_track.bucket}",
+      table = "${aws_dynamodb_table.social_track.name}"
+    }
+  }
 
   tags {
     Name = "social_track"
@@ -122,12 +146,34 @@ resource "aws_dynamodb_table" "social_track" {
   }
 }
 
-# resource "aws_cloudwatch_log_group" "social_track" {
-#   name = "social_track"
-#   retention_in_days = 90
+resource "aws_cloudwatch_log_group" "social_track" {
+  name = "/aws/lambda/social_track"
+  retention_in_days = 90
 
-#   tags {
-#     Name = "social_track"
-#     Environment = "production"
-#   }
-# }
+  tags {
+    Name = "social_track"
+    Environment = "production"
+  }
+}
+
+resource "aws_kms_key" "social_track" {
+  description = "social_track lambda secrets"
+  is_enabled = true
+}
+
+resource "aws_s3_bucket" "social_track" {
+  bucket = "${var.bucket}"
+  acl = "private"
+}
+
+resource "aws_s3_bucket_object" "social_track" {
+  key = "encrypted-secrets"
+  bucket = "${aws_s3_bucket.social_track.bucket}"
+  content = "${data.aws_kms_ciphertext.social_track.ciphertext_blob}"
+  kms_key_id = "${aws_kms_key.social_track.arn}"
+}
+
+data "aws_kms_ciphertext" "social_track" {
+  key_id = "${aws_kms_key.social_track.key_id}"
+  plaintext = "${file("secrets/keys.json")}"
+}

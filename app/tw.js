@@ -8,8 +8,8 @@ const getTweets = (token, screen_name, since_id, exclude_replies, SECRETS) => {
 
   return new Promise((resolve, reject) => {
     var client = new twitter({
-      consumer_key: SECRETS.CONSUMER_KEY,
-      consumer_secret: SECRETS.CONSUMER_SECRET,
+      consumer_key: SECRETS.consumer_key,
+      consumer_secret: SECRETS.consumer_secret,
       bearer_token: token
     });
 
@@ -36,7 +36,7 @@ const getOAuthToken = (SECRETS) => {
   return new Promise((resolve, reject) => {
     let url = 'https://api.twitter.com/'
     let path = 'oauth2/token'
-    let oauth = new oauth2(SECRETS.CONSUMER_KEY, SECRETS.CONSUMER_SECRET, url, null, path, null);
+    let oauth = new oauth2(SECRETS.consumer_key, SECRETS.consumer_secret, url, null, path, null);
 
     let data = {
       'grant_type': 'client_credentials'

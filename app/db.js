@@ -10,7 +10,7 @@ const getAccounts = () => {
 
   return new Promise((resolve, reject) => {
     let params = {
-      TableName: "social_track"
+      TableName: process.env.table ? process.env.table : "social_track"
     };
 
     dynamodb.scan(params, (err, data) => {
@@ -30,11 +30,11 @@ const putAccount = (screen_name, since_id, exclude_replies) => {
   return new Promise((resolve, reject) => {
     let params = {
       Item: {
-        'screen_name': { S: screen_name },
-        'since_id': { S: since_id },
-        'exclude_replies': { BOOL: exclude_replies }
+        "screen_name": { S: screen_name },
+        "since_id": { S: since_id },
+        "exclude_replies": { BOOL: exclude_replies }
       },
-      TableName: 'social_track'
+      TableName: process.env.table ? process.env.table : "social_track"
     };
 
     dynamodb.putItem(params, (err, data) => {
