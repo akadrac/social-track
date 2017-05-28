@@ -27,7 +27,7 @@ Its should now be installed, however you need to add entires for each user you w
 
 #### AWS resources used
 
-Terraform provisions the 
+Terraform provisions the follow:
 - IAM role
 - IAM policy
 - Lambda function

@@ -13,6 +13,6 @@ output "function_name" {
   value = "${aws_lambda_function.social_track.function_name}"
 }
 
-output "key_id" {
-  value = "${aws_kms_key.social_track.key_id}"
+output "function_version" {
+  value = "${aws_lambda_function.social_track.version}"
 }
