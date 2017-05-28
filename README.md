@@ -2,6 +2,8 @@
 
 This is a lambda function to check a twitter users timeline and post any new tweets to a discord webhook.
 
+![example](/images/social-track.png?raw=true "example")
+
 #### Requires
 - [Docker](https://docker.com) is used to build and package the function
 - [Terraform](https://terraform.io) is used to provision the infrastructure for this serverless function.
