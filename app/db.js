@@ -2,7 +2,7 @@
 
 const AWS = require('aws-sdk');
 AWS.config = new AWS.Config();
-AWS.config.update({ region: 'us-west-2' });
+AWS.config.update({ region: process.env.region ? process.env.region : 'us-west-2' });
 const dynamodb = new AWS.DynamoDB();
 
 const getAccounts = () => {

@@ -19,22 +19,12 @@ resource "aws_iam_role" "social_track" {
 data "aws_iam_policy_document" "social_track" {
   statement {
     actions = [
-      "lambda:InvokeFunction"
-    ]
-
-    resources = [
-      "arn:aws:lambda:${var.region}:${data.aws_caller_identity.current.account_id}:function:*",
-    ]
-  }
-
-  statement {
-    actions = [
       "dynamodb:Scan",
       "dynamodb:PutItem"
     ]
 
     resources = [
-      "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/social_track",
+      "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/${aws_dynamodb_table.social_track.name}"
     ]
   } 
 
@@ -44,7 +34,7 @@ data "aws_iam_policy_document" "social_track" {
     ]
 
     resources = [
-      "arn:aws:kms:${var.region}:${data.aws_caller_identity.current.account_id}:key/*",
+      "arn:aws:kms:${var.region}:${data.aws_caller_identity.current.account_id}:key/${aws_kms_key.social_track.key_id}"
     ]
   }
 
@@ -54,7 +44,7 @@ data "aws_iam_policy_document" "social_track" {
     ]
 
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.social_track.bucket}/*",
+      "arn:aws:s3:::${aws_s3_bucket.social_track.bucket}/${aws_s3_bucket_object.social_track.key}"
     ]
   } 
 }
@@ -99,6 +89,8 @@ resource "aws_lambda_function" "social_track" {
   environment {
     variables = {
       bucket = "${aws_s3_bucket.social_track.bucket}",
+      region = "${var.region}",
+      secrets = "${aws_s3_bucket_object.social_track.key}",
       table = "${aws_dynamodb_table.social_track.name}"
     }
   }
@@ -161,6 +153,11 @@ resource "aws_kms_key" "social_track" {
   is_enabled = true
 }
 
+resource "aws_kms_alias" "social_track" {
+  name          = "alias/social_track"
+  target_key_id = "${aws_kms_key.social_track.key_id}"
+}
+
 resource "aws_s3_bucket" "social_track" {
   bucket = "${var.bucket}"
   acl = "private"
@@ -169,8 +166,7 @@ resource "aws_s3_bucket" "social_track" {
 resource "aws_s3_bucket_object" "social_track" {
   key = "encrypted-secrets"
   bucket = "${aws_s3_bucket.social_track.bucket}"
-  content = "${data.aws_kms_ciphertext.social_track.ciphertext_blob}"
-  kms_key_id = "${aws_kms_key.social_track.arn}"
+  content = "${base64decode(data.aws_kms_ciphertext.social_track.ciphertext_blob)}"
 }
 
 data "aws_kms_ciphertext" "social_track" {
