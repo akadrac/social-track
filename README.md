@@ -2,20 +2,40 @@
 
 This is a lambda function to check a twitter users timeline and post any new tweets to a discord webhook.
 
-It uses dynamodbo to store the screen_name, since_id (the last twitter id seen) and exclude_replies (boolean).
+#### Requires
+- [Docker](docker.com) is used to build and package the function
+- [Terraform](terraform.io) is used to provision the infrastructure for this serverless function.
 
-You need to create a table (social-track) and add the entires for each user you want to follow.
+#### To use this project
 
-You need to create a KMS encrypted secrets file containing the twitter api key and api secret and the discord webhook.
+1. git clone the repo
+2. modify `variables.tf` to set your unique bucket name and region
+3. rename `secrets\keys.template` to `secrets\keys.json`
+4. add your api keys and webhook to `secrets\keys.json`
+5. run `build.cmd` - builds and packages the function
+6. run `terraform plan` - make sure you have your aws creds available
+7. run `terraform apply` - deploys the application
 
-Modify `encrypt.cmd` as necessary, to create the encrypted file (for windows)
+Its should now be installed, however you need to add entires for each user you want to follow into the dynamodb table.
 
-Build the application with `docker run -t social-track .`
+    {
+      "screen_name": { S: 'OpenAI' },
+      "since_id": { S: '867411728857939970' },
+      "exclude_replies": { BOOL: true }
+    }
 
-Copy the zip file out of the docker container with `docker container cp <name>:/dist/app.zip .`
 
-Update to the zip file to the Lambda function you have created (nodejs 6.10)
+#### AWS resources used
 
-Add a trigger of cloudwatch with a 5-min interval.
+Terraform provisions the 
+- IAM role
+- IAM policy
+- Lambda function
+- Cloudwatch event
+- Dynamodb table
+- Cloudwatch log group
+- KMS key
+- S3 bucket
+- S3 object with encrypted secrets
 
 enjoy!
