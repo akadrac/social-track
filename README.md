@@ -18,7 +18,7 @@ This is a lambda function to check a twitter users timeline and post any new twe
 6. run `terraform plan` - make sure you have your aws creds available
 7. run `terraform apply` - deploys the application
 
-Its should now be installed, however you need to add entires for each user you want to follow into the dynamodb table.
+It should now be installed, however you need to add entires for each user you want to follow into the dynamodb table.
 
     {
       "screen_name": { S: 'OpenAI' },

@@ -3,6 +3,8 @@ terraform {
     bucket = "akadrac-terraform-state"
     key = "social/terraform.tfstate"
     region = "ap-southeast-2"
+    encrypt = true
+    #lock_table = "terraform-lock" # primary key == LockID
   }
 }
 
