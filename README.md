@@ -15,10 +15,10 @@ This is a lambda function to check a twitter users timeline and post any new twe
 3. rename `secrets\keys.template` to `secrets\keys.json`
 4. add your api keys and webhook to `secrets\keys.json`
 5. run `build.cmd` - builds and packages the function
-6. run `terraform plan` - make sure you have your aws creds available
-7. run `terraform apply` - deploys the application
+6. run `terraform plan` then `terraform apply` in `terraform\base`
+7. run `terraform plan` then `terraform apply` in `terraform\app`
 
-It should now be installed, however you need to add entires for each user you want to follow into the dynamodb table.
+It should now be installed, however you need to add entires for each user you want to follow into the dynamodb table. e.g.
 
     {
       "screen_name": { S: 'OpenAI' },
