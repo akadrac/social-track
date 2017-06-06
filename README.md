@@ -12,10 +12,10 @@ This is a lambda function to check a twitter users timeline and post any new twe
 
 1. git clone the repo
 2. modify `variables.tf` to set your unique bucket name and region
-3. rename `secrets\keys.template` to `secrets\keys.json`
+3. rename `secrets\keys.example.json` to `secrets\keys.json`
 4. add your api keys and webhook to `secrets\keys.json`
-5. run `build.cmd` - builds and packages the function
-6. run `terraform plan` then `terraform apply` in `terraform\base`
+5. run `terraform plan` then `terraform apply` in `terraform\base`
+6. run `build.cmd` - builds and packages the function
 7. run `terraform plan` then `terraform apply` in `terraform\app`
 
 It should now be installed, however you need to add entires for each user you want to follow into the dynamodb table. e.g.
@@ -26,6 +26,7 @@ It should now be installed, however you need to add entires for each user you wa
       "exclude_replies": { BOOL: true }
     }
 
+If you make changes to the app then run steps 6 then 7 again.
 
 #### AWS resources used
 
