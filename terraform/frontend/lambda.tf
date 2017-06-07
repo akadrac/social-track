@@ -1,6 +1,6 @@
 data "archive_file" "get" {
   type        = "zip"
-  source_file = "site/get.js"
+  source_file = "frontend/functions/get.js"
   output_path = "dist/get.zip"
 }
 
@@ -15,7 +15,7 @@ resource "aws_lambda_function" "get" {
 
 data "archive_file" "post" {
   type        = "zip"
-  source_file = "site/post.js"
+  source_file = "frontend/functions/post.js"
   output_path = "dist/post.zip"
 }
 
@@ -30,7 +30,7 @@ resource "aws_lambda_function" "post" {
 
 data "archive_file" "put" {
   type        = "zip"
-  source_file = "site/put.js"
+  source_file = "frontend/functions/put.js"
   output_path = "dist/put.zip"
 }
 
@@ -45,7 +45,7 @@ resource "aws_lambda_function" "put" {
 
 data "archive_file" "patch" {
   type        = "zip"
-  source_file = "site/patch.js"
+  source_file = "frontend/functions/patch.js"
   output_path = "dist/patch.zip"
 }
 
@@ -60,7 +60,7 @@ resource "aws_lambda_function" "patch" {
 
 data "archive_file" "delete" {
   type        = "zip"
-  source_file = "site/delete.js"
+  source_file = "frontend/functions/delete.js"
   output_path = "dist/delete.zip"
 }
 
