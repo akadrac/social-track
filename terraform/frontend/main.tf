@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "akadrac-terraform-state"
-    key = "social/site.tfstate"
+    key = "social/frontend.tfstate"
     region = "ap-southeast-2"
     encrypt = true
     #lock_table = "terraform-lock" # primary key == LockID
