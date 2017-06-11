@@ -13,6 +13,12 @@ provider "aws" {
   region = "${var.region}"
 }
 
+#hack to support issued certs out of us-east-1 only
+provider "aws" {
+  region = "us-east-1"
+  alias = "us-east-1"
+}
+
 variable "region" {
   default = "ap-southeast-2"
 }

@@ -1,6 +1,13 @@
 # API Gateway
 # resource "aws_api_gateway_rest_api" "api" {
 #   name = "myapi"
+
+#   tags {
+#     Name = "social_track"
+#     Environment = "production"
+#     Component = "frontend"
+#     Managed = "terraform"
+#   }
 # }
 
 # resource "aws_api_gateway_method" "method" {
