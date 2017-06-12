@@ -1,0 +1,1 @@
+aws s3 sync --acl private frontend/client/build/ s3://akadrac-social-track --delete

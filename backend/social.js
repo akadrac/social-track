@@ -15,9 +15,9 @@ const main = (event, callback) => {
       let accounts = yield db.getAccounts();
 
       for (let account of accounts) {
-        let screen_name = account.screen_name.S;
-        let since_id = account.since_id.S;
-        let exclude_replies = account.exclude_replies.BOOL;
+        let screen_name = account.screen_name;
+        let since_id = account.since_id;
+        let exclude_replies = account.exclude_replies;
 
         let tweets = yield tw.getTweets(token, screen_name, since_id, exclude_replies, SECRETS.twitter);
         console.log('number of tweets:', tweets.length);
