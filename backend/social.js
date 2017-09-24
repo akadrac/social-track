@@ -37,7 +37,7 @@ const main = (event, callback) => {
       callback(null, "finished!")
     }
     catch (e) {
-      callback(e)
+      callback(JSON.stringify(e))
     }
   })
 }
