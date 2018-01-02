@@ -4,19 +4,20 @@ This is a lambda function to check a twitter users timeline and post any new twe
 
 ![example](/images/social-track.png?raw=true "example")
 
-#### Requires
+## Requires
 - [Docker](https://docker.com) is used to build and package the function
 - [Terraform](https://terraform.io) is used to provision the infrastructure for this serverless function.
 
-#### To use this project
+## To use this project
 
+### Initial Setup
 1. git clone the repo
-2. modify `variables.tf` to set your unique bucket name and region
-3. rename `secrets\keys.example.json` to `secrets\keys.json`
-4. add your api keys and webhook to `secrets\keys.json`
-5. run `terraform plan` then `terraform apply` in `terraform\base`
-6. run `build.cmd` - builds and packages the function
-7. run `terraform plan` then `terraform apply` in `terraform\app`
+2. create `tf\secrets.auto.tfvars` from the example
+3. add your api keys and discord webhook
+
+### Deploy the application
+4. run `build.sh` - builds and packages the function
+5. run `terraform plan` then `terraform apply` in `tf`
 
 It should now be installed, however you need to add entires for each user you want to follow into the dynamodb table. e.g.
 
@@ -28,7 +29,7 @@ It should now be installed, however you need to add entires for each user you wa
 
 If you make changes to the app then run steps 6 then 7 again.
 
-#### AWS resources used
+## AWS resources used
 
 Terraform provisions the following:
 - IAM role
@@ -37,8 +38,5 @@ Terraform provisions the following:
 - Cloudwatch event
 - Dynamodb table
 - Cloudwatch log group
-- KMS key
-- S3 bucket
-- S3 object with encrypted secrets
 
 enjoy!
