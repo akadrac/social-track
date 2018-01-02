@@ -2,7 +2,7 @@
 
 const twitter = require('twitter');
 
-const getTweets = (token, screen_name, since_id, exclude_replies, SECRETS) => {
+const getTweets = (screen_name, since_id, exclude_replies) => {
   console.log('getTweets:', screen_name, since_id, exclude_replies);
 
   return new Promise((resolve, reject) => {
