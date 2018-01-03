@@ -6,7 +6,7 @@ variable "consumer_secret" {
   default = ""
 }
 
-variable "access_token" {
+variable "access_token_key" {
   default = ""
 }
 

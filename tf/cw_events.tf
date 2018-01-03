@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "social_track" {
   name = "social_track"
-  description = "Fires every five minutes"
-  schedule_expression = "rate(5 minutes)"
+  description = "Fires every one minute"
+  schedule_expression = "rate(1 minute)"
 }
 
 resource "aws_cloudwatch_event_target" "social_track" {

@@ -16,7 +16,6 @@
   "dependencies": {
     "aws-sdk": "^2.49.0",
     "co": "^4.6.0",
-    "oauth": "^0.9.15",
     "request": "^2.81.0",
     "twitter": "^1.7.0"
   },

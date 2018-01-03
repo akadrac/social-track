@@ -10,6 +10,7 @@ resource "aws_lambda_function" "social_track" {
   runtime = "nodejs6.10"
   publish = true
   timeout = 15
+  reserved_concurrent_executions = 1
 
   environment {
     variables = {
@@ -17,7 +18,7 @@ resource "aws_lambda_function" "social_track" {
       table = "${aws_dynamodb_table.social_track.name}",
       consumer_key = "${var.consumer_key}",
       consumer_secret = "${var.consumer_secret}",
-      access_token = "${var.access_token}",
+      access_token_key = "${var.access_token_key}",
       access_token_secret = "${var.access_token_secret}",
       webhook = "${var.webhook}"
     }
