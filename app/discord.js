@@ -9,7 +9,7 @@ const post = (tweet) => {
 
   let message = {
     content: content.replace(/&amp;/g, '&') + ' | <https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '>',
-    username: tweet.user.screen_name,
+    username: tweet.user.name,
     avatar_url: tweet.user.profile_image_url
   }
 
