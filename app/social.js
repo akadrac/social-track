@@ -30,7 +30,8 @@ const main = async (event, callback) => {
 
     callback(null, "finished!")
   } catch (e) {
-    callback(JSON.stringify(e))
+    console.log(e.message);
+    callback(e);
   }
 }
 
