@@ -1,4 +1,4 @@
-FROM node:6-alpine
+FROM node:8-alpine
 RUN apk add --update zip && rm -rf /var/cache/apk/* 
 WORKDIR /src
 COPY package.json .

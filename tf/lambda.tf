@@ -7,7 +7,7 @@ resource "aws_lambda_function" "social_track" {
 
   role = "${aws_iam_role.social_track.arn}"
   memory_size = "128"
-  runtime = "nodejs6.10"
+  runtime = "nodejs8.10"
   publish = true
   timeout = 15
   reserved_concurrent_executions = 1
