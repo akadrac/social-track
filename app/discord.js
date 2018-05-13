@@ -8,7 +8,7 @@ const post = (tweet) => {
   let content = tweet.retweeted_status ? 'RT @' + tweet.retweeted_status.user.screen_name + ': ' + tweet.retweeted_status.text : tweet.text;
 
   let message = {
-    content: content + ' | <https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '>',
+    content: content.replace(/&amp;/g, '&') + ' | <https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '>',
     username: tweet.user.screen_name,
     avatar_url: tweet.user.profile_image_url
   }

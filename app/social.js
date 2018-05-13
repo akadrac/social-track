@@ -21,7 +21,7 @@ const main = async (event, callback) => {
         if (tweet.id_str > since_id) {
           since_id = tweet.id_str
         }
-        await discord.post(decodeURIComponent(tweet));
+        await discord.post(tweet);
       }
       if (tweets.length) {
         await db.putAccount(screen_name, since_id, exclude_replies);
