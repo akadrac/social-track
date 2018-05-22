@@ -5,7 +5,12 @@ const request = require('request');
 const post = (tweet) => {
   console.log('postToDiscord')
 
-  let content = tweet.retweeted_status ? 'RT @' + tweet.retweeted_status.user.screen_name + ': ' + tweet.retweeted_status.text : tweet.text;
+  let text = tweet.full_text ? tweet.full_text : tweet.text;
+  if (tweet.retweeted_status) {
+    text = tweet.retweeted_status.full_text ? tweet.retweeted_status.full_text : tweet.retweeted_status.text;
+  }
+
+  let content = tweet.retweeted_status ? 'RT @' + tweet.retweeted_status.user.screen_name + ': ' + text : text;
 
   let message = {
     content: content.replace(/&amp;/g, '&') + ' | <https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str + '>',

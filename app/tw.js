@@ -16,7 +16,8 @@ const getTweets = (screen_name, since_id, exclude_replies) => {
     var params = {
       screen_name: screen_name,
       since_id: since_id,
-      exclude_replies: exclude_replies
+      exclude_replies: exclude_replies,
+      tweet_mode: 'extended'
     }
 
     client.get('statuses/user_timeline', params, (error, tweets, response) => {
