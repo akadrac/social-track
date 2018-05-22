@@ -27,7 +27,7 @@ It should now be installed, however you need to add entires for each user you wa
       "exclude_replies": { BOOL: true }
     }
 
-If you make changes to the app then run steps 6 then 7 again.
+If you make changes to the app then run steps 4 & 5 again.
 
 ## AWS resources used
 
