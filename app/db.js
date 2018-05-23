@@ -4,6 +4,8 @@ const AWS = require('aws-sdk');
 AWS.config = new AWS.Config();
 AWS.config.update({ region: process.env.region ? process.env.region : 'ap-southeast-2' });
 
+const documentClient = new AWS.DynamoDB.DocumentClient();
+
 const getAccounts = () => {
   console.log('getAccounts')
 
@@ -11,8 +13,6 @@ const getAccounts = () => {
     let params = {
       TableName: process.env.table ? process.env.table : "social_track"
     };
-
-    let documentClient = new AWS.DynamoDB.DocumentClient();
 
     documentClient.scan(params, (err, data) => {
       if (err) {
@@ -37,8 +37,6 @@ const putAccount = (screen_name, since_id, exclude_replies) => {
       },
       TableName: process.env.table ? process.env.table : "social_track"
     };
-
-    let documentClient = new AWS.DynamoDB.DocumentClient();
 
     documentClient.put(params, (err, data) => {
       if (err) {

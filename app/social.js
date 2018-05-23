@@ -21,7 +21,23 @@ const main = async (event, callback) => {
         if (tweet.id_str > since_id) {
           since_id = tweet.id_str
         }
-        await discord.post(tweet);
+
+        let id = tweet.retweeted_status ? tweet.retweeted_status.id_str : tweet.id_str;
+        let name = tweet.retweeted_status ? tweet.retweeted_status.user.screen_name : tweet.user.screen_name;
+        let text = "";
+        if (tweet.retweeted_status) {
+          text = 'RT @' + name + ': ' + tweet.retweeted_status.full_text ? tweet.retweeted_status.full_text : tweet.retweeted_status.text;
+        }
+        else {
+          text = tweet.full_text ? tweet.full_text : tweet.text;
+        }
+
+        let message = {
+          content: text.replace(/&amp;/g, '&') + ' | <https://twitter.com/' + name + '/status/' + id + '>',
+          username: tweet.user.name,
+          avatar_url: tweet.user.profile_image_url
+        }
+        await discord.post(message);
       }
       if (tweets.length) {
         await db.putAccount(screen_name, since_id, exclude_replies);
