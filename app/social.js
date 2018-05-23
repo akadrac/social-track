@@ -26,7 +26,8 @@ const main = async (event, callback) => {
         let name = tweet.retweeted_status ? tweet.retweeted_status.user.screen_name : tweet.user.screen_name;
         let text = "";
         if (tweet.retweeted_status) {
-          text = 'RT @' + name + ': ' + tweet.retweeted_status.full_text ? tweet.retweeted_status.full_text : tweet.retweeted_status.text;
+          text = 'RT @' + name + ': ';
+          text += tweet.retweeted_status.full_text ? tweet.retweeted_status.full_text : tweet.retweeted_status.text;
         }
         else {
           text = tweet.full_text ? tweet.full_text : tweet.text;
