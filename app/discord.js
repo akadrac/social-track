@@ -1,27 +1,29 @@
-'use strict';
+'use strict'
 
-const request = require('request');
+const request = require('request')
 
-const post = (message) => {
+const post = (content, username, avatar_url) => new Promise((resolve, reject) => {
   console.log('postToDiscord')
-  
-  return new Promise((resolve, reject) => {
 
-    let options = {
-      url: process.env.webhook,
-      method: 'POST',
-      json: message
-    };
+  let message = {
+    content,
+    username,
+    avatar_url
+  }
 
-    request(options, (err, res, body) => {
-      if (err) {
-        reject(err);
-      }
-      else {
-        resolve(res.statusCode);
-      }
-    });
-  });
-}
+  let options = {
+    url: process.env.webhook,
+    method: 'POST',
+    json: message
+  }
 
-module.exports = { post };
+  request(options, (err, res, body) => {
+    if (err) {
+      reject(err)
+    } else {
+      resolve(res.statusCode)
+    }
+  })
+})
+
+module.exports = { post }

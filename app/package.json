@@ -4,8 +4,7 @@
   "description": "lambda function to monitor twitter accounts and post results to discord",
   "main": "social-track.js",
   "scripts": {
-    "coverage": "jest --coverage",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "akadrac",
@@ -14,8 +13,5 @@
     "aws-sdk": "^2.49.0",
     "request": "^2.81.0",
     "twitter": "^1.7.0"
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }
