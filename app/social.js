@@ -31,7 +31,7 @@ const main = async (event, callback) => {
           text = tweet.full_text ? tweet.full_text : tweet.text
         }
 
-        let content = `${text.replace(/&amp/g, '&')} | <https://twitter.com/${name}/status/${id}>`
+        let content = `${text.replace(/&amp;/g, '&')} | <https://twitter.com/${name}/status/${id}>`
         let username = tweet.user.name
         let avatar_url = tweet.user.profile_image_url
 
