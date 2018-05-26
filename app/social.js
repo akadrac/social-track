@@ -3,6 +3,7 @@
 const db = require('./db')
 const tw = require('./tw')
 const discord = require('./discord')
+const bigInt = require('big-integer')
 
 const main = async (event, callback) => {
   try {
@@ -18,7 +19,7 @@ const main = async (event, callback) => {
 
       // we want to process from oldest tweet to newest
       for (let tweet of tweets.reverse()) {
-        if (tweet.id_str > since_id) {
+        if (bigInt(tweet.id_str) > bigInt(since_id)) {
           since_id = tweet.id_str
         }
 
