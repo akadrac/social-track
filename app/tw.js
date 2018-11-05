@@ -9,7 +9,7 @@ const client = new twitter({
   access_token_secret: process.env.access_token_secret
 })
 
-const getTweets = (screen_name, since_id, exclude_replies) => new Promise((resolve, reject) => {
+const getTweets = ({screen_name, since_id, exclude_replies}) => new Promise((resolve, reject) => {
   console.log('getTweets:', screen_name, since_id, exclude_replies)
 
   let params = {

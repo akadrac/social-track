@@ -2,7 +2,7 @@
 
 const request = require('request')
 
-const post = (content, username, avatar_url) => new Promise((resolve, reject) => {
+const post = ({content, username, avatar_url, webhook}) => new Promise((resolve, reject) => {
   console.log('postToDiscord')
 
   let message = {
@@ -12,7 +12,7 @@ const post = (content, username, avatar_url) => new Promise((resolve, reject) =>
   }
 
   let options = {
-    url: process.env.webhook,
+    url: webhook,
     method: 'POST',
     json: message
   }

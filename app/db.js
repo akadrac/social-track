@@ -19,13 +19,14 @@ const getAccounts = () => new Promise((resolve, reject) => {
   })
 })
 
-const putAccount = (screen_name, since_id, exclude_replies) => new Promise((resolve, reject) => {
+const putAccount = ({screen_name, since_id, exclude_replies, webhook}) => new Promise((resolve, reject) => {
   console.log('putAccount')
   let params = {
     Item: {
       screen_name,
       since_id,
-      exclude_replies
+      exclude_replies,
+      webhook,
     },
     TableName: process.env.table ? process.env.table : "social_track"
   }

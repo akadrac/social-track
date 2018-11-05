@@ -9,12 +9,8 @@ const main = async (event, callback) => {
   try {
     let accounts = await db.getAccounts()
 
-    for (let account of accounts) {
-      let screen_name = account.screen_name
-      let since_id = account.since_id
-      let exclude_replies = account.exclude_replies
-
-      let tweets = await tw.getTweets(screen_name, since_id, exclude_replies)
+    for (let { screen_name, since_id, exclude_replies, webhook } of accounts) {
+      let tweets = await tw.getTweets({ screen_name, since_id, exclude_replies })
       console.log('number of tweets:', tweets.length)
 
       // we want to process from oldest tweet to newest
@@ -36,10 +32,10 @@ const main = async (event, callback) => {
         let username = tweet.user.name
         let avatar_url = tweet.user.profile_image_url
 
-        await discord.post(content, username, avatar_url)
+        await discord.post({ content, username, avatar_url, webhook })
       }
       if (tweets.length) {
-        await db.putAccount(screen_name, since_id, exclude_replies)
+        await db.putAccount({ screen_name, since_id, exclude_replies, webhook })
       }
     }
 
