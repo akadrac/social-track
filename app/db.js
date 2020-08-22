@@ -8,20 +8,16 @@ const documentClient = new AWS.DynamoDB.DocumentClient()
 
 const getAccounts = () => new Promise((resolve, reject) => {
   console.log('getAccounts')
-  let params = { TableName: process.env.table ? process.env.table : "social_track" }
 
-  documentClient.scan(params, (err, data) => {
-    if (err) {
-      reject(err)
-    } else {
-      resolve(data.Items)
-    }
-  })
+  const params = { TableName: process.env.table ? process.env.table : "social_track" }
+
+  documentClient.scan(params, (err, data) => err ? reject(err) : resolve(data.Items))
 })
 
-const putAccount = ({screen_name, since_id, exclude_replies, webhook}) => new Promise((resolve, reject) => {
-  console.log('putAccount')
-  let params = {
+const putAccount = ({ screen_name, since_id, exclude_replies, webhook }) => new Promise((resolve, reject) => {
+  console.log(`putAccount: ${screen_name} ${since_id}`)
+
+  const params = {
     Item: {
       screen_name,
       since_id,
@@ -31,13 +27,7 @@ const putAccount = ({screen_name, since_id, exclude_replies, webhook}) => new Pr
     TableName: process.env.table ? process.env.table : "social_track"
   }
 
-  documentClient.put(params, (err, data) => {
-    if (err) {
-      reject(err)
-    } else {
-      resolve(data)
-    }
-  })
+  documentClient.put(params, (err, data) => err ? reject(err) : resolve(data))
 })
 
 module.exports = { getAccounts, putAccount }

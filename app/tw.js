@@ -9,23 +9,17 @@ const client = new twitter({
   access_token_secret: process.env.access_token_secret
 })
 
-const getTweets = ({screen_name, since_id, exclude_replies}) => new Promise((resolve, reject) => {
+const getTweets = ({ screen_name, since_id, exclude_replies }) => new Promise((resolve, reject) => {
   console.log('getTweets:', screen_name, since_id, exclude_replies)
 
-  let params = {
+  const params = {
     screen_name,
     since_id,
     exclude_replies,
     tweet_mode: 'extended'
   }
 
-  client.get('statuses/user_timeline', params, (error, tweets, response) => {
-    if (error) {
-      reject(error)
-    } else {
-      resolve(tweets)
-    }
-  })
+  client.get('statuses/user_timeline', params, (error, tweets, response) => error ? reject(error) : resolve(tweets))
 })
 
 module.exports = { getTweets }

@@ -4,46 +4,48 @@ const db = require('./db')
 const tw = require('./tw')
 const discord = require('./discord')
 const bigInt = require('big-integer')
+const { unescape } = require('html-escaper')
 
 const main = async (event, callback) => {
   try {
-    let accounts = await db.getAccounts()
 
-    for (let { screen_name, since_id, exclude_replies, webhook } of accounts) {
-      let tweets = await tw.getTweets({ screen_name, since_id, exclude_replies })
-      console.log('number of tweets:', tweets.length)
-
-      // we want to process from oldest tweet to newest
-      for (let tweet of tweets.reverse()) {
-        if (bigInt(tweet.id_str) > bigInt(since_id)) {
-          since_id = tweet.id_str
-        }
-
-        let id = tweet.retweeted_status ? tweet.retweeted_status.id_str : tweet.id_str
-        let name = tweet.retweeted_status ? tweet.retweeted_status.user.screen_name : tweet.user.screen_name
-        let text = ''
-        if (tweet.retweeted_status) {
-          text = `RT @ ${name}: ${tweet.retweeted_status.full_text ? tweet.retweeted_status.full_text : tweet.retweeted_status.text}`
-        } else {
-          text = tweet.full_text ? tweet.full_text : tweet.text
-        }
-
-        let content = `${text.replace(/&amp;/g, '&')} | <https://twitter.com/${name}/status/${id}>`
-        let username = tweet.user.name
-        let avatar_url = tweet.user.profile_image_url
-
-        await discord.post({ content, username, avatar_url, webhook })
-      }
-      if (tweets.length) {
-        await db.putAccount({ screen_name, since_id, exclude_replies, webhook })
-      }
-    }
+    await Promise.all((await db.getAccounts()).map(processTweets))
 
     callback(null, "finished!")
   } catch (e) {
-    console.log(e.message)
     callback(e)
   }
+}
+
+const processTweets = async ({ screen_name, since_id, exclude_replies, webhook, }) => {
+  const tweets = await tw.getTweets({ screen_name, since_id, exclude_replies })
+
+  console.log(`processTweets: ${screen_name} has ${tweets.length} new tweets`)
+
+  const messages = await Promise.all(tweets.reverse().map(await formatMessage))
+
+  await Promise.all(messages.map(async obj => await discord.post({ ...obj, webhook })))
+
+  if (tweets.length) {
+    await db.putAccount({
+      screen_name, exclude_replies, webhook,
+      since_id: tweets.reduce((prev, cur) => bigInt(cur.id_str).value > bigInt(prev).value ? cur.id_str : prev, since_id),
+    })
+  }
+}
+
+const formatMessage = async (tweet) => {
+  const id = tweet.retweeted_status ? tweet.retweeted_status.id_str : tweet.id_str
+  const name = tweet.retweeted_status ? tweet.retweeted_status.user.screen_name : tweet.user.screen_name
+
+  const text = tweet.retweeted_status ? `RT @ ${name}: ${tweet.retweeted_status.full_text ? tweet.retweeted_status.full_text : tweet.retweeted_status.text}` : tweet.full_text ? tweet.full_text : tweet.text
+
+  const content = `${unescape(text)} | <https://twitter.com/${name}/status/${id}>`
+  const username = tweet.user.name
+  const avatar_url = tweet.user.profile_image_url
+
+  return { content, username, avatar_url }
+
 }
 
 module.exports = { main }
