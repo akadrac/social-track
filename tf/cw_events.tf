@@ -5,7 +5,7 @@ resource "aws_cloudwatch_event_rule" "social_track" {
 }
 
 resource "aws_cloudwatch_event_target" "social_track" {
-  rule = "${aws_cloudwatch_event_rule.social_track.name}"
+  rule = aws_cloudwatch_event_rule.social_track.name
   target_id = "social_track"
-  arn = "${aws_lambda_function.social_track.arn}"
+  arn = aws_lambda_function.social_track.arn
 }

@@ -9,7 +9,7 @@ resource "aws_dynamodb_table" "social_track" {
     type = "S"
   }
 
-  tags {
+  tags = {
     Name = "social_track"
     Environment = "production"
   }

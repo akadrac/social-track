@@ -1,19 +1,13 @@
-variable "consumer_key" {
-  default = ""
+variable "filename" {
+    default = "social_track.zip"
 }
 
-variable "consumer_secret" {
-  default = ""
-}
+variable "consumer_key" {}
 
-variable "access_token_key" {
-  default = ""
-}
+variable "consumer_secret" {}
 
-variable "access_token_secret" {
-  default = ""
-}
+variable "access_token_key" {}
 
-variable "webhook" {
-  default = ""
-}
+variable "access_token_secret" {}
+
+variable "webhook" {}
