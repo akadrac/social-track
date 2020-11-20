@@ -18,19 +18,23 @@ const main = async (event, callback) => {
 }
 
 const processTweets = async ({ screen_name, since_id, exclude_replies, webhook, }) => {
-  const tweets = await tw.getTweets({ screen_name, since_id, exclude_replies })
+  try {
+    const tweets = await tw.getTweets({ screen_name, since_id, exclude_replies })
 
-  console.log(`processTweets: ${screen_name} has ${tweets.length} new tweets`)
+    console.log(`processTweets: ${screen_name} has ${tweets.length} new tweets`)
 
-  const messages = await Promise.all(tweets.reverse().map(await formatMessage))
+    const messages = await Promise.all(tweets.reverse().map(await formatMessage))
 
-  await Promise.all(messages.map(async obj => await discord.post({ ...obj, webhook })))
+    await Promise.all(messages.map(async obj => await discord.post({ ...obj, webhook })))
 
-  if (tweets.length) {
-    await db.putAccount({
-      screen_name, exclude_replies, webhook,
-      since_id: tweets.reduce((prev, cur) => bigInt(cur.id_str).value > bigInt(prev).value ? cur.id_str : prev, since_id),
-    })
+    if (tweets.length) {
+      await db.putAccount({
+        screen_name, exclude_replies, webhook,
+        since_id: tweets.reduce((prev, cur) => bigInt(cur.id_str).value > bigInt(prev).value ? cur.id_str : prev, since_id),
+      })
+    }
+  } catch (e) {
+    console.log(e)
   }
 }
 
