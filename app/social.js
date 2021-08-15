@@ -23,7 +23,7 @@ const processTweets = async ({ screen_name, since_id, exclude_replies, webhook, 
 
     console.log(`processTweets: ${screen_name} has ${tweets.length} new tweets`)
 
-    const messages = await Promise.all(tweets.reverse().map(await formatMessage))
+    const messages = tweets.reverse().map(formatMessage)
 
     await Promise.all(messages.map(async obj => await discord.post({ ...obj, webhook })))
 
@@ -34,11 +34,11 @@ const processTweets = async ({ screen_name, since_id, exclude_replies, webhook, 
       })
     }
   } catch (e) {
-    console.log(e)
+    console.log(`${screen_name}: ${e.message}`)
   }
 }
 
-const formatMessage = async (tweet) => {
+const formatMessage = (tweet) => {
   const id = tweet.retweeted_status ? tweet.retweeted_status.id_str : tweet.id_str
   const name = tweet.retweeted_status ? tweet.retweeted_status.user.screen_name : tweet.user.screen_name
 
