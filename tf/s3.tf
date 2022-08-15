@@ -1,9 +1,13 @@
 resource "aws_s3_bucket" "lambda" {
   bucket = "akadrac-lambda"
-  acl    = "private"
 
   tags = {
-    Name = "social_track"
+    Name        = "social_track"
     Environment = "production"
   }
+}
+
+resource "aws_s3_bucket_acl" "lambda" {
+  bucket = aws_s3_bucket.lambda.id
+  acl    = "private"
 }
