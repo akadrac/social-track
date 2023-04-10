@@ -10,7 +10,7 @@
   "author": "akadrac",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.922.0",
+    "aws-sdk": "^2.1354.0",
     "big-integer": "^1.6.48",
     "dotenv": "^10.0.0",
     "html-escaper": "^3.0.3",
